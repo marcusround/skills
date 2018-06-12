@@ -3,6 +3,7 @@ var Engine = Matter.Engine,
     // Render = Matter.Render,
     World = Matter.World,
     Bodies = Matter.Bodies;
+    Common = Matter.Common;
 
 var engine;
 var world;
@@ -13,7 +14,7 @@ var colliders = [];
 var testImg;
 var lessonBadges = [];
 
-var ver = 1114;
+var ver = 1120;
 var debug = true;
 
 var bgColor = 244;
@@ -154,7 +155,7 @@ function mouseDragged() {
 var updateGravity = function(event) {
   if (autoGravity){
     updateGravityHasRun = true;
-    /*
+
     var orientation = window.orientation;
 
     if (orientation === 0) {
@@ -170,7 +171,7 @@ var updateGravity = function(event) {
         gravity.x = Common.clamp(-event.beta, -90, 90) / 90;
         gravity.y = Common.clamp(event.gamma, -90, 90) / 90;
     }
-    */
+
   }
 };
 
