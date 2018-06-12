@@ -13,8 +13,10 @@ var colliders = [];
 var testImg;
 var lessonBadges = [];
 
-var ver = 1101;
+var ver = 1107;
 var debug = true;
+
+var bgColor = 244;
 
 function setup() {
   createCanvas(1280,720);
@@ -91,7 +93,7 @@ var autoGravity = (!window.orientation);
 var creationTrigger = true;
 
 function draw() {
-  background(244);
+  background(bgColor);
 
   if (autoGravity) {
     gravity.x = Math.sin(frameCount / 100);
@@ -101,7 +103,7 @@ function draw() {
   if (creationTrigger && lessonBadges.length > 29){
     for (var i = 0, il = 40; i < il; i++){
       var n = Math.floor(random(lessonBadges.length));
-      particles.push(new p5Body("circle", width/2 + random(-5,5), height/2 + random(-5,5), 40, 40, {image: lessonBadges[n], drawShape: false, imageResize: true}, {friction: 0.0, restitution: 0.4}));
+      particles.push(new p5Body("circle", width/2 + random(-5,5), height * 0.33 + random(-5,5), 40, 40, {image: lessonBadges[n], drawShape: false, imageResize: true}, {friction: 0.0, restitution: 0.4}));
     }
     creationTrigger = false;
   }
@@ -148,7 +150,9 @@ function mouseDragged() {
 /* add gyro control */
 var updateGravity = function(event) {
   if (autoGravity){
-    text("auto gravity updating", 150, 300);
+    if (debug) {
+      bgColor = color(0,198,0);
+    }
     /*
     var orientation = window.orientation;
 
