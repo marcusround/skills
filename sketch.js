@@ -86,14 +86,14 @@ function setup() {
   Engine.run(engine);
 }
 
-var userGravity = (typeof window.orientation !== 'undefined');
+var autoGravity = (!window.orientation);
 
 var creationTrigger = true;
 
 function draw() {
   background(244);
 
-  if (!userGravity) {
+  if (autoGravity) {
     gravity.x = Math.sin(frameCount / 100);
     gravity.y = Math.cos(frameCount / 100);
   } else {
@@ -113,8 +113,12 @@ function draw() {
 
   if (debug) {
     text (ver, 150, 150);
-    text (userGravity, 150, 200);
-    text (window.orientation, 150, 250);
+    text (autoGravity, 150, 200);
+    var orientation = window.orientation;
+    if (!window.orientation) {
+      orientation = 'no orientation';
+    }
+    text (orientation, 150, 250);
   }
 }
 
