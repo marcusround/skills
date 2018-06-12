@@ -13,7 +13,7 @@ var colliders = [];
 var testImg;
 var lessonBadges = [];
 
-var ver = 1050;
+var ver = 1059;
 var debug = true;
 
 function setup() {
