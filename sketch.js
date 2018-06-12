@@ -13,7 +13,7 @@ var colliders = [];
 var testImg;
 var lessonBadges = [];
 
-var ver = 1059;
+var ver = 1101;
 var debug = true;
 
 function setup() {
@@ -96,8 +96,6 @@ function draw() {
   if (autoGravity) {
     gravity.x = Math.sin(frameCount / 100);
     gravity.y = Math.cos(frameCount / 100);
-  } else {
-    updateGravity();
   }
 
   if (creationTrigger && lessonBadges.length > 29){
@@ -149,7 +147,9 @@ function mouseDragged() {
 
 /* add gyro control */
 var updateGravity = function(event) {
-  if (userGravity){
+  if (autoGravity){
+    text("auto gravity updating", 150, 300);
+    /*
     var orientation = window.orientation;
 
     if (orientation === 0) {
@@ -165,6 +165,7 @@ var updateGravity = function(event) {
         gravity.x = Common.clamp(-event.beta, -90, 90) / 90;
         gravity.y = Common.clamp(event.gamma, -90, 90) / 90;
     }
+    */
   }
 };
 
