@@ -14,15 +14,15 @@ var colliders = [];
 var testImg;
 var lessonBadges = [];
 
-var ver = 1107;
-var debug = true;
+var ver = 1128;
+var debug = false;
 
 var bgColor = 244;
 
 var updateGravityHasRun = false;
 
 function setup() {
-  createCanvas(1280,720);
+  createCanvas(windowWidth, windowHeight);
   engine = Engine.create();
   world = engine.world;
   gravity = engine.world.gravity;
