@@ -14,7 +14,7 @@ var colliders = [];
 var testImg;
 var lessonBadges = [];
 
-var ver = 1120;
+var ver = 1107;
 var debug = true;
 
 var bgColor = 244;
@@ -153,7 +153,7 @@ function mouseDragged() {
 
 /* add gyro control */
 var updateGravity = function(event) {
-  if (autoGravity){
+  if (!autoGravity){
     updateGravityHasRun = true;
 
     var orientation = window.orientation;
