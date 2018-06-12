@@ -13,6 +13,9 @@ var colliders = [];
 var testImg;
 var lessonBadges = [];
 
+var ver = 1050;
+var debug = true;
+
 function setup() {
   createCanvas(1280,720);
   engine = Engine.create();
@@ -107,6 +110,12 @@ function draw() {
 
   showAll(particles);
   showAll(colliders);
+
+  if (debug) {
+    text (ver, 150, 150);
+    text (userGravity, 150, 200);
+    text (window.orientation, 150, 250);
+  }
 }
 
 function showAll(arr) {
