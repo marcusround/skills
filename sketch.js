@@ -93,6 +93,8 @@ function draw() {
   if (!userGravity) {
     gravity.x = Math.sin(frameCount / 100);
     gravity.y = Math.cos(frameCount / 100);
+  } else {
+    updateGravity();
   }
 
   if (creationTrigger && lessonBadges.length > 29){
