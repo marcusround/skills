@@ -99,8 +99,8 @@ function draw() {
   background(bgColor);
 
   if (autoGravity) {
-    gravity.x = Math.sin(frameCount / 100);
-    gravity.y = Math.cos(frameCount / 100);
+    gravity.x = map(mouseX, 0, width, -1, 1);
+    gravity.y = map(mouseY, 0, height, -1, 1);
   }
 
   if (creationTrigger && lessonBadges.length > 29){
