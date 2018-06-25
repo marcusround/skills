@@ -10,6 +10,7 @@ var world;
 var gravity;
 var particles = [];
 var colliders = [];
+var monsters = [];
 
 var testImg;
 var lessonBadges = [];
@@ -17,9 +18,11 @@ var lessonBadges = [];
 var ver = 1128;
 var debug = false;
 
-var bgColor = 244;
+var bgColor = '#00cccc';
 
 var updateGravityHasRun = false;
+
+var monsterAnimations = [null,null,null,null,null,null];
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -67,6 +70,7 @@ function setup() {
     colliders.push(new p5Body("rectangle", x, y, w, h, {drawShape: false, image: img, imageResize: true}, {isStatic: true}));
   });
 
+
   // Load centre box and push as collider.....
   loadImage('assets/textBox.png', function(img){
     var w = img.width;
@@ -88,12 +92,22 @@ function setup() {
   colliders.push(new p5Body("rectangle", width + 50, height/2, 100, height, {drawShape: false}, {isStatic: true}));
   colliders.push(new p5Body("rectangle", -50, height/2, 100, height, {drawShape: false}, {isStatic: true}));
 
+  // Let's try adding a monster.
+  monsters.push(new p5Body("circle", -width * 0.75, height * 0.75, 75, 75, {drawShape: false, json: 'animations/gremlin_1.json'}, {isStatic: true}));
+  monsters.push(new p5Body("circle", -width * 0.75, height * 0.75, 80, 80, {drawShape: false, json: 'animations/gremlin_3.json'}, {isStatic: true}));
+  monsters.push(new p5Body("circle", -width * 0.75, height * 0.75, 125, 125, {drawShape: false, json: 'animations/gremlin_4.json'}, {isStatic: true}));
+  monsters.push(new p5Body("circle", -width * 0.75, height * 0.75, 100, 100, {drawShape: false, json: 'animations/gremlin_5.json'}, {isStatic: true}));
+  monsters.push(new p5Body("circle", -width * 0.75, height * 0.75, 80, 80, {drawShape: false, json: 'animations/gremlin_2.json'}, {isStatic: true}));
+  monsters.push(new p5Body("circle", -width * 0.75, height * 0.75, 90, 90, {drawShape: false, json: 'animations/gremlin_6.json'}, {isStatic: true}));
+
   Engine.run(engine);
 }
 
 var autoGravity = (!window.orientation);
 
 var creationTrigger = true;
+
+var animationIndex = 0;
 
 function draw() {
   background(bgColor);
@@ -111,7 +125,27 @@ function draw() {
     creationTrigger = false;
   }
 
+  if (frameCount % 600 == 150) {
+    monsterAnimations[animationIndex] = new MonsterAnimation(width * (0.2 + 0.8 * random()), height * 1, monsters[animationIndex], 600);
+    animationIndex = ( animationIndex + 1 ) % monsters.length;
+  } else if (frameCount > 50) {
+    for (var i = 0, il = monsterAnimations.length; i < il; i++) {
+      if (monsterAnimations[i]) {
+        monsterAnimations[i].run();
+      }
+    }
+  }
+
+/*
+  (function moveMonster() {
+    var m = monsters[0];
+    var x = 200 + 200 * sin(frameCount/50);
+    var y = 200 + 220 * sin(frameCount/29);
+    m.moveTo(x, y);
+  })();
+*/
   showAll(particles);
+  showAll(monsters);
   showAll(colliders);
 
   if (debug) {
@@ -131,15 +165,18 @@ function showAll(arr) {
     if (arr[i].show){
       arr[i].show();
     }
+    /* Disabled checking to prevent monsters being destroyed
     if (arr[i].isOffScreen && arr[i].isOffScreen()){
       arr[i].destroy();
       arr.splice(i,1);
       i--;
     }
+    */
   }
 }
 
 function mouseDragged() {
+  /*
   var emojiChance = 1.0;
   if (lessonBadges.length > 0 && random() < (1 - emojiChance)) {
     var i = Math.floor(random(lessonBadges.length));
@@ -149,6 +186,7 @@ function mouseDragged() {
     var str = emojis[Math.floor(random(emojis.length))];
     particles.push(new p5Body("circle", mouseX, mouseY, 20, 20, {text: str, drawShape: false}, {friction: 0.1, restitution: 0.9}));
   }
+  */
 }
 
 /* add gyro control */
@@ -159,17 +197,17 @@ var updateGravity = function(event) {
     var orientation = window.orientation;
 
     if (orientation === 0) {
-        gravity.x = Common.clamp(event.gamma, -90, 90) / 90;
-        gravity.y = Common.clamp(event.beta, -90, 90) / 90;
+        gravity.x = Common.clamp(event.gamma, -45, 45) / 45;
+        gravity.y = Common.clamp(event.beta, -45, 45) / 45;
     } else if (orientation === 180) {
-        gravity.x = Common.clamp(event.gamma, -90, 90) / 90;
-        gravity.y = Common.clamp(-event.beta, -90, 90) / 90;
+        gravity.x = Common.clamp(event.gamma, -45, 45) / 45;
+        gravity.y = Common.clamp(-event.beta, -45, 45) / 45;
     } else if (orientation === 90) {
-        gravity.x = Common.clamp(event.beta, -90, 90) / 90;
-        gravity.y = Common.clamp(-event.gamma, -90, 90) / 90;
+        gravity.x = Common.clamp(event.beta, -45, 45) / 45;
+        gravity.y = Common.clamp(-event.gamma, -45, 45) / 45;
     } else if (orientation === -90) {
-        gravity.x = Common.clamp(-event.beta, -90, 90) / 90;
-        gravity.y = Common.clamp(event.gamma, -90, 90) / 90;
+        gravity.x = Common.clamp(-event.beta, -45, 45) / 45;
+        gravity.y = Common.clamp(event.gamma, -45, 45) / 45;
     }
 
   }

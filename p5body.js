@@ -5,9 +5,39 @@ function p5Body (bodyType, x, y, w, h, p = {}, o = {}) {
     this.body = Bodies[bodyType](x, y, w, h, o);
   }
 
+  this.id = this.body.id;
+
   World.add(engine.world, this.body);
 
-  // Read image and resize
+  if (p.json) {
+    var jsonScale = 1.4;
+    // Create div
+    this.div = createDiv("");
+
+    var d = this.div;
+    d.id("bodymovin" + this.id);
+    d.size(2 * jsonScale * w, 2 * jsonScale * h);
+    d.offset = { x: -(1 + (jsonScale - 1) * 0.57) * w,
+                 y: -(1 + (jsonScale - 1) * 0.57) * h};
+    d.position(x + d.offset.x, y + d.offset.y);
+    // d.style('background-color', 'red');
+
+    // Create animation and attach it to div
+    this.json = bodymovin.loadAnimation({
+      container: this.div.elt,
+      renderer: 'svg',
+      loop: true,
+      autoplay: true,
+      path: p.json
+    })
+  }
+
+  this.moveTo = function(x, y){
+    var v = Matter.Vector.create(x,y);
+
+    Matter.Body.setPosition(this.body, v);
+    this.div.position(x + this.div.offset.x, y + this.div.offset.y);
+  }
 
   this.show = function() {
     if (p.drawShape !== false) {
